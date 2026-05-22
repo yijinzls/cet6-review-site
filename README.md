@@ -42,6 +42,8 @@
 
 `https://github.com/KyleBing/english-vocabulary`
 
+实际加载时会优先走 jsDelivr CDN，失败后再尝试 GitHub Raw 地址。
+
 如果网络失败，页面会自动使用 `app.js` 里的备用词库。
 
 ## 怎么加备用单词

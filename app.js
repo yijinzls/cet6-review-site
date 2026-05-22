@@ -104,7 +104,7 @@ const addDays = (count) => {
   return date.toISOString().slice(0, 10);
 };
 
-let state;
+let state = loadState();
 let mode = "review";
 let queue = [];
 let current = null;
@@ -154,16 +154,20 @@ async function loadOnlineWords() {
   let lastError = null;
 
   try {
-    status.textContent = "正在联网加载六级词库...";
+    if (status) status.textContent = "正在联网加载六级词库...";
     for (const url of ONLINE_WORDS_URLS) {
       try {
-        const response = await fetch(url, { cache: "no-store" });
+        const response = await fetchWithTimeout(url, 8000);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();
         const words = normalizeOnlineWords(data);
         if (words.length < 1000) throw new Error("词库数量异常");
         WORDS = words;
-        status.innerHTML = `在线词库已加载：${WORDS.length} 词 · <a href="${ONLINE_SOURCE_URL}" target="_blank" rel="noreferrer">来源</a>`;
+        state = loadState();
+        pickNext();
+        if (status) {
+          status.innerHTML = `在线词库已加载：${WORDS.length} 词 · <a href="${ONLINE_SOURCE_URL}" target="_blank" rel="noreferrer">来源</a>`;
+        }
         return;
       } catch (error) {
         lastError = error;
@@ -172,8 +176,19 @@ async function loadOnlineWords() {
     throw lastError || new Error("无法加载在线词库");
   } catch (error) {
     WORDS = FALLBACK_WORDS;
-    status.textContent = `在线词库加载失败，已使用备用词库：${WORDS.length} 词。请检查网络后刷新。`;
+    state = loadState();
+    pickNext();
+    if (status) {
+      status.textContent = `在线词库加载失败，已使用备用词库：${WORDS.length} 词。请检查网络后刷新。`;
+    }
   }
+}
+
+function fetchWithTimeout(url, timeoutMs) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  return fetch(url, { cache: "no-store", signal: controller.signal })
+    .finally(() => clearTimeout(timer));
 }
 
 function saveState() {
@@ -344,9 +359,8 @@ $("resetBtn").addEventListener("click", () => {
 });
 
 async function init() {
-  await loadOnlineWords();
-  state = loadState();
   pickNext();
+  await loadOnlineWords();
 }
 
 init();
