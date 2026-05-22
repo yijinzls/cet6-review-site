@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>六级单词复习站</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">C6</div>
+          <div>
+            <h1>六级单词复习站</h1>
+            <p id="todayText">Today</p>
+          </div>
+        </div>
+
+        <section class="stats-grid" aria-label="学习数据">
+          <article class="stat">
+            <span>今日待复习</span>
+            <strong id="dueCount">0</strong>
+          </article>
+          <article class="stat">
+            <span>已掌握</span>
+            <strong id="masteredCount">0</strong>
+          </article>
+          <article class="stat">
+            <span>连续学习</span>
+            <strong id="streakCount">0</strong>
+          </article>
+          <article class="stat">
+            <span>总词量</span>
+            <strong id="totalCount">0</strong>
+          </article>
+        </section>
+
+        <div class="daily-card">
+          <div>
+            <span class="daily-label">今日进度</span>
+            <strong id="dailyProgress">0 / 20</strong>
+          </div>
+          <div class="progress-track">
+            <span id="progressBar"></span>
+          </div>
+        </div>
+
+        <p class="source-text" id="sourceText">正在准备在线词库...</p>
+
+        <nav class="mode-tabs" aria-label="学习模式">
+          <button class="active" data-mode="review">复习</button>
+          <button data-mode="learn">新词</button>
+          <button data-mode="list">词库</button>
+        </nav>
+      </aside>
+
+      <section class="study-panel">
+        <div class="visual-strip" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <section class="card-area" id="cardArea">
+          <div class="word-meta">
+            <span id="tagText">CET-6</span>
+            <span id="levelText">Level 0</span>
+          </div>
+          <h2 id="wordText">loading</h2>
+          <p id="phoneticText"></p>
+          <p class="meaning hidden" id="meaningText"></p>
+          <p class="example hidden" id="exampleText"></p>
+          <div class="card-actions">
+            <button class="ghost" id="speakBtn" type="button">发音</button>
+            <button id="showBtn" type="button">查看释义</button>
+          </div>
+        </section>
+
+        <section class="answer-panel" id="answerPanel" hidden>
+          <button class="danger" data-result="again" type="button">还不熟</button>
+          <button class="warn" data-result="hard" type="button">有点印象</button>
+          <button class="ok" data-result="good" type="button">记住了</button>
+        </section>
+
+        <section class="empty-panel" id="emptyPanel" hidden>
+          <h2>今天的复习清空了</h2>
+          <p>可以切到“新词”继续扩充词库，或者明天再回来复习。</p>
+        </section>
+
+        <section class="word-list" id="wordList" hidden>
+          <div class="list-toolbar">
+            <input id="searchInput" type="search" placeholder="搜索单词、释义或例句" />
+            <button id="resetBtn" class="ghost" type="button">重置进度</button>
+          </div>
+          <div id="wordRows"></div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
