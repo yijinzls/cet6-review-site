@@ -1,105 +1,135 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>六级单词复习站</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="app-shell">
-      <aside class="sidebar">
-        <div class="brand">
-          <div class="brand-mark" aria-hidden="true">C6</div>
-          <div>
-            <h1>六级单词复习站</h1>
-            <p id="todayText">Today</p>
-          </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>六级单词复习站</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif;color:#172033;background:linear-gradient(135deg,#f7fafc,#eef3f8 55%,#f8fbf1)}button,input{font:inherit}button{border:0;cursor:pointer;border-radius:8px;font-weight:700}button:active{transform:translateY(1px)}.wrap{width:min(1120px,calc(100vw - 28px));min-height:calc(100vh - 28px);margin:14px auto;display:grid;grid-template-columns:320px 1fr;border:1px solid #dbe3ed;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.92);box-shadow:0 24px 70px rgba(40,54,76,.14)}aside{padding:26px;background:#fbfcfe;border-right:1px solid #dbe3ed}.brand{display:flex;gap:14px;align-items:center}.mark{width:54px;height:54px;display:grid;place-items:center;border-radius:8px;background:#172033;color:white;font-weight:900}.brand h1{margin:0;font-size:22px}.brand p,.muted{margin:4px 0 0;color:#657084}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}.stat{padding:14px;border:1px solid #dbe3ed;border-radius:8px;background:white}.stat span{display:block;color:#657084;font-size:13px}.stat strong{display:block;margin-top:7px;font-size:27px}.daily{margin-top:16px;padding:18px;border-radius:8px;background:linear-gradient(135deg,#172033,#2c8795);color:white}.daily span{font-size:13px;opacity:.82}.daily strong{display:block;margin-top:6px;font-size:24px}.bar{height:10px;margin-top:14px;border-radius:99px;background:rgba(255,255,255,.25);overflow:hidden}.bar i{display:block;height:100%;width:0;background:#f2d56a}.source{min-height:42px;margin-top:12px;color:#657084;font-size:13px;line-height:1.5}.source a{color:#2f67b1;font-weight:700}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}.tabs button,.ghost{min-height:42px;background:#e8eef5;color:#172033}.tabs button.active{background:#2f67b1;color:white}main{position:relative;padding:34px;display:grid;align-content:center;gap:18px;overflow:hidden}.top-art{position:absolute;inset:0 0 auto;height:128px;display:grid;grid-template-columns:repeat(5,1fr);pointer-events:none}.top-art i{background:linear-gradient(155deg,rgba(47,103,177,.14),rgba(31,143,101,.08));clip-path:polygon(0 0,100% 0,74% 100%,0 70%)}.card,.empty,.list{position:relative;z-index:1;width:min(680px,100%);margin:0 auto;border:1px solid #dbe3ed;border-radius:8px;background:rgba(255,255,255,.97);box-shadow:0 18px 55px rgba(40,54,76,.12)}.card{min-height:420px;padding:42px;display:grid;align-content:center}.meta{display:flex;justify-content:space-between;color:#657084;font-size:14px}.word{margin:26px 0 0;font-size:clamp(42px,7vw,80px);line-height:1;overflow-wrap:anywhere}.phonetic{margin-top:12px;color:#2f67b1;font-size:21px}.meaning{margin-top:32px;font-size:27px;line-height:1.35}.example{margin-top:16px;color:#657084;font-size:17px;line-height:1.65}.hidden{visibility:hidden}.actions,.answers{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}.actions button,.answers button,.list button{min-height:46px;padding:0 18px}.primary,.good{background:#1f8f65;color:white}.bad{background:#c8484a;color:white}.hard{background:#a56a16;color:white}.answers{position:relative;z-index:1;width:min(680px,100%);margin:0 auto}.answers button{flex:1}.empty{padding:44px;text-align:center}.empty h2{margin:0;font-size:30px}.empty p{color:#657084}.list{padding:20px;max-height:min(680px,calc(100vh - 90px));overflow:auto}.tools{position:sticky;top:0;display:flex;gap:10px;padding-bottom:14px;background:white}.tools input{width:100%;min-height:46px;padding:0 14px;border:1px solid #dbe3ed;border-radius:8px}.row{display:grid;grid-template-columns:150px 1fr 70px;gap:12px;padding:14px 0;border-top:1px solid #dbe3ed}.row strong{font-size:18px}.row p{margin:0;color:#657084;line-height:1.45}.badge{justify-self:end;padding:6px 10px;border-radius:99px;background:#e8f0fb;color:#2f67b1;font-weight:700;font-size:13px}@media(max-width:820px){.wrap{width:100%;min-height:100vh;margin:0;grid-template-columns:1fr;border:0;border-radius:0}aside{border-right:0;border-bottom:1px solid #dbe3ed;padding:20px}main{padding:24px 16px}.card{min-height:380px;padding:28px}.row{grid-template-columns:1fr}.badge{justify-self:start}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <aside>
+      <div class="brand">
+        <div class="mark">C6</div>
+        <div><h1>六级单词复习站</h1><p id="todayText">Today</p></div>
+      </div>
+      <section class="stats">
+        <div class="stat"><span>今日待复习</span><strong id="dueCount">0</strong></div>
+        <div class="stat"><span>已掌握</span><strong id="masteredCount">0</strong></div>
+        <div class="stat"><span>连续学习</span><strong id="streakCount">0天</strong></div>
+        <div class="stat"><span>总词量</span><strong id="totalCount">0</strong></div>
+      </section>
+      <section class="daily">
+        <span>今日进度</span><strong id="dailyProgress">0 / 20</strong>
+        <div class="bar"><i id="progressBar"></i></div>
+      </section>
+      <p class="source" id="sourceText">页面已启动，正在联网加载六级词库...</p>
+      <nav class="tabs">
+        <button id="reviewTab" class="active" type="button" onclick="setMode('review')">复习</button>
+        <button id="learnTab" type="button" onclick="setMode('learn')">新词</button>
+        <button id="listTab" type="button" onclick="setMode('list')">词库</button>
+      </nav>
+    </aside>
+    <main>
+      <div class="top-art"><i></i><i></i><i></i><i></i><i></i></div>
+      <section class="card" id="cardArea">
+        <div class="meta"><span id="tagText">CET-6</span><span id="levelText">Level 0</span></div>
+        <h2 class="word" id="wordText">loading</h2>
+        <p class="phonetic" id="phoneticText"></p>
+        <p class="meaning hidden" id="meaningText"></p>
+        <p class="example hidden" id="exampleText"></p>
+        <div class="actions">
+          <button class="ghost" type="button" onclick="speakWord()">发音</button>
+          <button class="primary" type="button" onclick="showMeaning()">查看释义</button>
         </div>
-
-        <section class="stats-grid" aria-label="学习数据">
-          <article class="stat">
-            <span>今日待复习</span>
-            <strong id="dueCount">0</strong>
-          </article>
-          <article class="stat">
-            <span>已掌握</span>
-            <strong id="masteredCount">0</strong>
-          </article>
-          <article class="stat">
-            <span>连续学习</span>
-            <strong id="streakCount">0</strong>
-          </article>
-          <article class="stat">
-            <span>总词量</span>
-            <strong id="totalCount">0</strong>
-          </article>
-        </section>
-
-        <div class="daily-card">
-          <div>
-            <span class="daily-label">今日进度</span>
-            <strong id="dailyProgress">0 / 20</strong>
-          </div>
-          <div class="progress-track">
-            <span id="progressBar"></span>
-          </div>
+      </section>
+      <section class="answers" id="answerPanel" hidden>
+        <button class="bad" type="button" onclick="answerWord('again')">还不熟</button>
+        <button class="hard" type="button" onclick="answerWord('hard')">有点印象</button>
+        <button class="good" type="button" onclick="answerWord('good')">记住了</button>
+      </section>
+      <section class="empty" id="emptyPanel" hidden>
+        <h2>今天的复习清空了</h2>
+        <p>可以切到“新词”继续扩充词库，或者明天再回来复习。</p>
+      </section>
+      <section class="list" id="wordList" hidden>
+        <div class="tools">
+          <input id="searchInput" type="search" placeholder="搜索单词、释义或例句" oninput="renderList()">
+          <button class="ghost" type="button" onclick="resetProgress()">重置进度</button>
         </div>
-
-        <p class="source-text" id="sourceText">正在准备在线词库...</p>
-
-        <nav class="mode-tabs" aria-label="学习模式">
-          <button class="active" data-mode="review">复习</button>
-          <button data-mode="learn">新词</button>
-          <button data-mode="list">词库</button>
-        </nav>
-      </aside>
-
-      <section class="study-panel">
-        <div class="visual-strip" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-
-        <section class="card-area" id="cardArea">
-          <div class="word-meta">
-            <span id="tagText">CET-6</span>
-            <span id="levelText">Level 0</span>
-          </div>
-          <h2 id="wordText">loading</h2>
-          <p id="phoneticText"></p>
-          <p class="meaning hidden" id="meaningText"></p>
-          <p class="example hidden" id="exampleText"></p>
-          <div class="card-actions">
-            <button class="ghost" id="speakBtn" type="button">发音</button>
-            <button id="showBtn" type="button">查看释义</button>
-          </div>
-        </section>
-
-        <section class="answer-panel" id="answerPanel" hidden>
-          <button class="danger" data-result="again" type="button">还不熟</button>
-          <button class="warn" data-result="hard" type="button">有点印象</button>
-          <button class="ok" data-result="good" type="button">记住了</button>
-        </section>
-
-        <section class="empty-panel" id="emptyPanel" hidden>
-          <h2>今天的复习清空了</h2>
-          <p>可以切到“新词”继续扩充词库，或者明天再回来复习。</p>
-        </section>
-
-        <section class="word-list" id="wordList" hidden>
-          <div class="list-toolbar">
-            <input id="searchInput" type="search" placeholder="搜索单词、释义或例句" />
-            <button id="resetBtn" class="ghost" type="button">重置进度</button>
-          </div>
-          <div id="wordRows"></div>
-        </section>
+        <div id="wordRows"></div>
       </section>
     </main>
+  </div>
 
-    <script src="app.js"></script>
-  </body>
+  <script>
+    var FALLBACK_WORDS=[
+      ["abandon","/əˈbændən/","v. 放弃；抛弃","Do not abandon your plan after one difficult week."],
+      ["abstract","/ˈæbstrækt/","adj. 抽象的；n. 摘要","The article begins with an abstract of the research."],
+      ["abundant","/əˈbʌndənt/","adj. 充足的；丰富的","The region has abundant natural resources."],
+      ["accelerate","/əkˈseləreɪt/","v. 加速；促进","Regular review can accelerate vocabulary growth."],
+      ["accessible","/əkˈsesəbl/","adj. 可接近的；易懂的","The lecture made a complex topic accessible."],
+      ["accommodate","/əˈkɑːmədeɪt/","v. 容纳；使适应","The hall can accommodate five hundred students."],
+      ["accumulate","/əˈkjuːmjəleɪt/","v. 积累；聚集","Small habits accumulate into visible progress."],
+      ["acknowledge","/əkˈnɑːlɪdʒ/","v. 承认；致谢","She acknowledged the help of her classmates."],
+      ["adequate","/ˈædɪkwət/","adj. 足够的；合格的","The plan requires adequate preparation."],
+      ["advocate","/ˈædvəkeɪt/","v. 提倡；n. 支持者","Many experts advocate active reading."],
+      ["ambiguous","/æmˈbɪɡjuəs/","adj. 模棱两可的","The sentence is ambiguous without context."],
+      ["anticipate","/ænˈtɪsɪpeɪt/","v. 预期；期待","We anticipate a rise in demand."],
+      ["apparent","/əˈpærənt/","adj. 明显的；表面上的","The reason soon became apparent."],
+      ["arbitrary","/ˈɑːrbətreri/","adj. 任意的；武断的","The choice was not arbitrary."],
+      ["assemble","/əˈsembl/","v. 集合；组装","The team assembled before the exam."],
+      ["assess","/əˈses/","v. 评估；估价","Teachers assess progress through small quizzes."],
+      ["beneficial","/ˌbenɪˈfɪʃl/","adj. 有益的","Sleep is beneficial to memory."],
+      ["coherent","/koʊˈhɪrənt/","adj. 连贯的；一致的","Write a coherent paragraph with clear logic."],
+      ["comprehensive","/ˌkɑːmprɪˈhensɪv/","adj. 全面的；综合的","The report gives a comprehensive overview."],
+      ["crucial","/ˈkruːʃl/","adj. 至关重要的","Review is crucial for long-term memory."],
+      ["demonstrate","/ˈdemənstreɪt/","v. 证明；展示","The experiment demonstrates the principle."],
+      ["enhance","/ɪnˈhæns/","v. 提高；增强","Examples can enhance understanding."],
+      ["facilitate","/fəˈsɪlɪteɪt/","v. 促进；使便利","Good notes facilitate review."],
+      ["fundamental","/ˌfʌndəˈmentl/","adj. 根本的；基础的","Vocabulary is fundamental to reading."],
+      ["integrate","/ˈɪntɪɡreɪt/","v. 整合；融入","Integrate new words into daily writing."],
+      ["maintain","/meɪnˈteɪn/","v. 维持；保养；主张","Maintain a steady pace before the exam."],
+      ["objective","/əbˈdʒektɪv/","adj. 客观的；n. 目标","Try to give an objective evaluation."],
+      ["potential","/pəˈtenʃl/","adj. 潜在的；n. 潜力","The idea has great potential."],
+      ["reliable","/rɪˈlaɪəbl/","adj. 可靠的","Use reliable sources for your essay."],
+      ["significant","/sɪɡˈnɪfɪkənt/","adj. 重要的；显著的","The change had a significant impact."]
+    ].map(function(x){return{word:x[0],phonetic:x[1],meaning:x[2],example:x[3]};});
+
+    var WORDS=FALLBACK_WORDS.slice();
+    var URLS=[
+      "https://cdn.jsdelivr.net/gh/KyleBing/english-vocabulary@master/json/4-CET6-%E9%A1%BA%E5%BA%8F.json",
+      "https://raw.githubusercontent.com/KyleBing/english-vocabulary/master/json/4-CET6-%E9%A1%BA%E5%BA%8F.json"
+    ];
+    var STORAGE_KEY="cet6-review-state-single-v1";
+    var DAILY_TARGET=20;
+    var DAY=24*60*60*1000;
+    var state,mode="review",queue=[],current=null,revealed=false;
+    function $(id){return document.getElementById(id)}
+    function today(){return new Date().toISOString().slice(0,10)}
+    function addDays(n){var d=new Date();d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
+    function loadState(){var saved={};try{saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")}catch(e){}var cards={};WORDS.forEach(function(w,i){cards[w.word]=(saved.cards&&saved.cards[w.word])||{index:i,level:0,due:today(),seen:false,correct:0,wrong:0}});return{cards:cards,daily:saved.daily||{date:today(),reviewed:0},streak:saved.streak||{count:0,lastDate:""}}}
+    function saveState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){}}
+    function ensureDaily(){if(state.daily.date!==today())state.daily={date:today(),reviewed:0}}
+    function card(w){return state.cards[w.word]}
+    function buildQueue(){ensureDaily();var list=WORDS.filter(function(w){return mode==="learn"?!card(w).seen:card(w).due<=today()});list.sort(function(a,b){return card(a).level-card(b).level||card(a).index-card(b).index});queue=list.slice(0,DAILY_TARGET)}
+    function pickNext(){buildQueue();current=queue[0]||null;revealed=false;render()}
+    function render(){ensureDaily();renderStats();renderTabs();renderList();$("wordList").hidden=mode!=="list";$("cardArea").hidden=mode==="list"||!current;$("emptyPanel").hidden=mode==="list"||!!current;$("answerPanel").hidden=mode==="list"||!current||!revealed;if(!current)return;var c=card(current);$("tagText").textContent=mode==="learn"?"New Word":"CET-6 Review";$("levelText").textContent="Level "+c.level;$("wordText").textContent=current.word;$("phoneticText").textContent=current.phonetic||"";$("meaningText").textContent=current.meaning;$("exampleText").textContent=current.example;$("meaningText").classList.toggle("hidden",!revealed);$("exampleText").classList.toggle("hidden",!revealed)}
+    function renderStats(){var due=WORDS.filter(function(w){return card(w).due<=today()}).length;var mastered=WORDS.filter(function(w){return card(w).level>=5}).length;var p=Math.min(state.daily.reviewed,DAILY_TARGET);$("todayText").textContent=new Date().toLocaleDateString("zh-CN");$("dueCount").textContent=due;$("masteredCount").textContent=mastered;$("streakCount").textContent=state.streak.count+"天";$("totalCount").textContent=WORDS.length;$("dailyProgress").textContent=p+" / "+DAILY_TARGET;$("progressBar").style.width=(p/DAILY_TARGET*100)+"%"}
+    function renderTabs(){["review","learn","list"].forEach(function(m){$(m+"Tab").classList.toggle("active",mode===m)})}
+    function renderList(){if(mode!=="list")return;var input=$("searchInput");var kw=(input&&input.value||"").toLowerCase();$("wordRows").innerHTML=WORDS.filter(function(w){return(w.word+" "+w.meaning+" "+w.example).toLowerCase().indexOf(kw)>-1}).slice(0,300).map(function(w){return'<article class="row"><strong>'+esc(w.word)+'</strong><p>'+esc(w.meaning)+'<br>'+esc(w.example)+'</p><span class="badge">L'+card(w).level+'</span></article>'}).join("")}
+    function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+    function updateStreak(){var n=today(),y=new Date(Date.now()-DAY).toISOString().slice(0,10);if(state.streak.lastDate===n)return;state.streak.count=state.streak.lastDate===y?state.streak.count+1:1;state.streak.lastDate=n}
+    function setMode(m){mode=m;if(mode==="list"){current=null;render()}else pickNext()}
+    function showMeaning(){revealed=true;render()}
+    function answerWord(result){if(!current)return;var c=card(current),base={again:0,hard:1,good:3}[result];c.seen=true;c.level=result==="again"?Math.max(0,c.level-1):Math.min(6,c.level+(result==="good"?1:0));c.due=addDays(base+Math.max(0,c.level-1));c.correct+=result==="good"?1:0;c.wrong+=result==="again"?1:0;state.daily.reviewed+=1;updateStreak();saveState();pickNext()}
+    function speakWord(){if(!current||!window.speechSynthesis)return;var u=new SpeechSynthesisUtterance(current.word);u.lang="en-US";u.rate=.85;speechSynthesis.cancel();speechSynthesis.speak(u)}
+    function resetProgress(){if(!confirm("确定要清空所有背词进度吗？"))return;localStorage.removeItem(STORAGE_KEY);state=loadState();mode="review";pickNext()}
+    function normalizeOnline(items){return items.filter(function(x){return x&&x.word&&x.translations}).map(function(x){var meaning=x.translations.map(function(t){return(t.type?t.type+". ":"")+(t.translation||"")}).join("；");var p=x.phrases&&x.phrases[0];return{word:x.word,phonetic:"",meaning:meaning||"暂无释义",example:p?p.phrase+"："+p.translation:"在线词库提供释义和常用短语。"}})}
+    function tryLoadOnline(i){if(i>=URLS.length){$("sourceText").textContent="在线词库加载失败，当前使用备用词库，按钮可正常使用。";return}fetch(URLS[i],{cache:"no-store"}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(data){var list=normalizeOnline(data);if(list.length<1000)throw new Error("bad list");WORDS=list;state=loadState();pickNext();$("sourceText").innerHTML='在线词库已加载：'+WORDS.length+' 词 · <a href="https://github.com/KyleBing/english-vocabulary" target="_blank" rel="noreferrer">来源</a>'}).catch(function(){tryLoadOnline(i+1)})}
+    state=loadState();pickNext();tryLoadOnline(0);
+  </script>
+</body>
 </html>
